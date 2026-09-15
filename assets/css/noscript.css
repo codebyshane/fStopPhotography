@@ -1,29 +1,18 @@
-/*
-	Lens by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
+#main {
+	opacity: 1 !important;
+	right: 0 !important;
+}
 
-/* Main */
-
-	#main {
-		opacity: 1 !important;
-		right: 0 !important;
-	}
-
-	body:before {
-		content: 'Javascript is disabled :(';
-		display: block;
-		position: absolute;
-		top: 50%;
-		width: calc(100% - 22.5em * 0.333333333);
-		height: 4em;
-		margin-top: -2em;
-		color: #282828;
-		cursor: default;
-		font-size: 3em;
-		line-height: 4em;
-		text-align: center;
-		white-space: nowrap;
-		left: 0;
-	}
+body:before {
+	content: 'Enable JavaScript to view the gallery.';
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 0;
+	width: calc(100% - 24rem);
+	margin-top: -1em;
+	color: #8a857c;
+	font-family: "Cormorant Garamond", serif;
+	font-size: 1.8rem;
+	text-align: center;
+}
