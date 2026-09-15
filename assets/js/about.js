@@ -24,10 +24,10 @@
 			return;
 		}
 
-		var visitor = String(form.visitor.value || '').trim();
-		var replyTo = String(form.replyTo.value || '').trim();
-		var topic = String(form.topic.value || 'Inquiry');
-		var message = String(form.message.value || '').trim();
+		var visitor = String((document.getElementById('inquiry-visitor') || form.visitor).value || '').trim();
+		var replyTo = String((document.getElementById('inquiry-reply') || form.replyTo).value || '').trim();
+		var topic = String((document.getElementById('inquiry-topic') || form.topic).value || 'Inquiry');
+		var message = String((document.getElementById('inquiry-message') || form.message).value || '').trim();
 
 		if (!visitor || !message) {
 			setStatus('Please include your name and a short note.', true);

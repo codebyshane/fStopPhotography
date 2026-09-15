@@ -12,6 +12,7 @@
 	--ease: 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 	--sans: "Outfit", "Helvetica Neue", Helvetica, sans-serif;
 	--serif: "Cormorant Garamond", "Times New Roman", serif;
+	--page-pad: 1.75rem;
 }
 
 *,
@@ -21,7 +22,7 @@
 }
 
 html, body, div, span, h1, h2, h3, p, a, ul, ol, li,
-header, footer, section, article, main, nav, img, form, label, input, select, textarea, button {
+header, footer, section, article, main, nav, img, form, label {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -29,8 +30,28 @@ header, footer, section, article, main, nav, img, form, label, input, select, te
 	vertical-align: baseline;
 }
 
+button, input, select, textarea {
+	margin: 0;
+	font-family: inherit;
+	font-size: 1rem;
+	line-height: 1.4;
+	color: inherit;
+}
+
 html {
-	background: var(--void);
+	background-color: var(--void);
+	-webkit-text-size-adjust: 100%;
+	text-size-adjust: 100%;
+}
+
+html.is-paper {
+	color-scheme: light;
+	background-color: var(--paper);
+}
+
+html.is-void {
+	color-scheme: dark;
+	background-color: var(--void);
 }
 
 body {
@@ -39,7 +60,10 @@ body {
 	font-family: var(--sans);
 	font-weight: 400;
 	line-height: 1.55;
-	-webkit-text-size-adjust: 100%;
+}
+
+main {
+	display: block;
 }
 
 img {
@@ -71,6 +95,8 @@ button, input, select, textarea {
 button {
 	cursor: pointer;
 	background: none;
+	-webkit-appearance: none;
+	appearance: none;
 }
 
 .eyebrow,
@@ -93,7 +119,7 @@ button {
 	align-items: baseline;
 	justify-content: space-between;
 	gap: 1.5rem;
-	padding: 1.35rem 1.75rem;
+	padding: max(1.35rem, env(safe-area-inset-top, 0px)) max(var(--page-pad), env(safe-area-inset-right, 0px)) 1.35rem max(var(--page-pad), env(safe-area-inset-left, 0px));
 	z-index: 8;
 }
 
@@ -145,8 +171,10 @@ button {
 .page-home,
 .page-paper {
 	min-height: 100vh;
-	background: var(--paper);
+	min-height: 100dvh;
+	background-color: var(--paper);
 	color: var(--ink-soft);
+	color-scheme: light;
 }
 
 .hero {
@@ -277,7 +305,7 @@ button {
 }
 
 .site-foot {
-	padding: 1.5rem 1.75rem 2.5rem;
+	padding: 1.5rem max(var(--page-pad), env(safe-area-inset-right, 0px)) max(2.5rem, env(safe-area-inset-bottom, 0px)) max(var(--page-pad), env(safe-area-inset-left, 0px));
 	color: var(--ink-soft);
 	font-size: 0.75rem;
 }
@@ -289,12 +317,13 @@ button {
 .about-page {
 	max-width: 40rem;
 	margin: 0 auto;
-	padding: 2rem 1.75rem 5rem;
+	padding: 2rem max(var(--page-pad), env(safe-area-inset-right, 0px)) 5rem max(var(--page-pad), env(safe-area-inset-left, 0px));
 }
 
 .about-page h1 {
 	margin: 0.4rem 0 0.6rem;
-	font-size: 4rem;
+	font-size: clamp(2.4rem, 8vw, 4rem);
+	overflow-wrap: break-word;
 }
 
 .about-page h2 {
@@ -314,7 +343,7 @@ button {
 .about-contact {
 	padding: 1.75rem 1.5rem 1.85rem;
 	border: 1px solid var(--line);
-	background: var(--paper-deep);
+	background-color: var(--paper-deep);
 }
 
 .about-contact .kicker {
@@ -371,13 +400,15 @@ button {
 }
 
 .inquiry-form {
-	display: grid;
-	gap: 0.85rem;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 0.5rem;
 }
 
 .inquiry-form label {
-	display: grid;
-	gap: 0.35rem;
+	display: block;
+	margin-top: 0.35rem;
 	color: var(--ink);
 	font-size: 0.72rem;
 	font-weight: 500;
@@ -385,18 +416,35 @@ button {
 	text-transform: uppercase;
 }
 
+.inquiry-form label:first-child {
+	margin-top: 0;
+}
+
 .inquiry-form input,
 .inquiry-form select,
 .inquiry-form textarea {
 	width: 100%;
+	max-width: 100%;
+	min-height: 2.85rem;
 	padding: 0.75rem 0.85rem;
 	border: 1px solid var(--line);
 	border-radius: 2px;
-	background: var(--paper);
+	background-color: var(--paper);
 	color: var(--ink);
-	font-size: 1rem;
+	color-scheme: light;
+	font-size: 16px;
 	letter-spacing: 0;
 	text-transform: none;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
+.inquiry-form select {
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%231c1915' d='M1.2 1.2L6 6l4.8-4.8' stroke='%231c1915' stroke-width='1.2' fill='none'/%3E%3C/svg%3E");
+	background-repeat: no-repeat;
+	background-position: right 0.85rem center;
+	background-size: 12px 8px;
+	padding-right: 2.4rem;
 }
 
 .inquiry-form textarea {
@@ -420,15 +468,19 @@ button {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	justify-self: start;
+	align-self: flex-start;
+	width: auto;
+	margin-top: 0.65rem;
 	padding: 0.85rem 1.15rem;
 	border: 1px solid var(--gold);
-	background: var(--gold);
+	background-color: var(--gold);
 	color: #fff;
 	font-size: 0.75rem;
 	font-weight: 500;
 	letter-spacing: 0.16em;
 	text-transform: uppercase;
+	-webkit-appearance: none;
+	appearance: none;
 }
 
 .inquiry-form .status {
@@ -988,6 +1040,7 @@ body.strip-hidden .filmstrip-wrap {
 
 	.inquiry-form button {
 		width: 100%;
+		align-self: stretch;
 		justify-content: center;
 	}
 
