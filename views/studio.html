@@ -26,6 +26,35 @@
 		</header>
 
 		<main class="studio-layout studio-exhibition">
+			<section class="studio-panel studio-copy" aria-labelledby="copy-heading">
+				<h2 id="copy-heading">About &amp; inquiries</h2>
+				<p class="lede">This copy appears on the public About page, including the inquiry address.</p>
+				<form id="site-form" class="upload-form site-form">
+					<label>
+						<span>Photographer</span>
+						<input type="text" name="photographer" maxlength="80" placeholder="Shane Ferguson" />
+					</label>
+					<label>
+						<span>Tagline</span>
+						<input type="text" name="tagline" maxlength="160" placeholder="Photographs from the world around us." />
+					</label>
+					<label>
+						<span>About</span>
+						<textarea name="about" rows="6" maxlength="2000" placeholder="A short note about the work."></textarea>
+					</label>
+					<label>
+						<span>Inquiries</span>
+						<textarea name="inquiries" rows="4" maxlength="600" placeholder="For prints, assignments, licensing, or a conversation about the work."></textarea>
+					</label>
+					<label>
+						<span>Inquiry email</span>
+						<input type="email" name="email" maxlength="120" placeholder="you@example.com" />
+					</label>
+					<p id="site-status" class="status" role="status"></p>
+					<button type="submit" class="ghost">Save About page</button>
+				</form>
+			</section>
+
 			<section class="studio-panel" aria-labelledby="hang-heading">
 				<h2 id="hang-heading">Hang a photograph</h2>
 				<p class="lede">Place a new frame on the wall. Choose the series it belongs to.</p>

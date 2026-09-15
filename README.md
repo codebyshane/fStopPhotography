@@ -19,7 +19,7 @@ Open [http://localhost:3000](http://localhost:3000).
 
 - `/` — full-bleed opening frame, then a list of series
 - `/work/:series` — one photograph at a time, with a hideable index
-- `/about` — a short note and inquiries
+- `/about` — photographer, the work, and inquiries for prints, assignments, and licensing
 
 ## Private studio
 
@@ -29,6 +29,7 @@ The public pages do not link to the studio. Sign in at the path in `.env` (`ADMI
 - Mark one frame as the opening image on the home page
 - Add, rename, and reorder series
 - Caption, move, reorder, and remove photographs
+- Edit the About page: photographer, tagline, copy, and inquiry email
 
 Search engines are told not to index that path.
 

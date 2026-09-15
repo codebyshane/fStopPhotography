@@ -122,15 +122,16 @@ app.get('/', (_req, res) => {
 
 app.get('/about', (_req, res) => {
   const site = store.site();
-  const email = site.email
-    ? `<p><a href="mailto:${escapeHtml(site.email)}">${escapeHtml(site.email)}</a></p>`
-    : '';
+  const photographer = site.photographer || site.name || 'f/stop';
   res.set('Cache-Control', 'no-store');
   res.type('html').send(renderTemplate('about.html', {
     year: String(new Date().getFullYear()),
+    photographer: escapeHtml(photographer),
     tagline: escapeHtml(site.tagline),
-    about: escapeHtml(site.about).replace(/\n/g, '</p><p>'),
-    email
+    about: paragraphs(site.about),
+    inquiries: paragraphs(site.inquiries || 'For prints, assignments, licensing, or a conversation about the work.'),
+    emailBlock: renderEmailBlock(site.email),
+    inquiryForm: renderInquiryForm(site)
   }));
 });
 
@@ -216,12 +217,14 @@ app.get('/api/studio/exhibition', noIndex, requireAuth, (_req, res) => {
 
 app.patch('/api/studio/site', noIndex, requireAuth, (req, res) => {
   const site = store.updateSite({
+    photographer: req.body.photographer,
     about: req.body.about,
+    inquiries: req.body.inquiries,
     email: req.body.email,
     tagline: req.body.tagline,
     featuredPhotoId: req.body.featuredPhotoId
   });
-  res.json({ site });
+  res.json({ site, exhibition: studioPayload() });
 });
 
 app.post('/api/studio/series', noIndex, requireAuth, (req, res) => {
@@ -384,6 +387,54 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function paragraphs(value) {
+  const text = String(value || '').trim();
+  if (!text) {
+    return '';
+  }
+  return escapeHtml(text).replace(/\n+/g, '</p><p>');
+}
+
+function isPublicEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || '').trim());
+}
+
+function renderEmailBlock(email) {
+  if (!isPublicEmail(email)) {
+    return '<p class="inquiry-closed">An inquiry address has not been published yet.</p>';
+  }
+  const safe = escapeHtml(email.trim());
+  return [
+    '<p class="inquiry-direct">',
+    `<a class="inquiry-mail" href="mailto:${safe}">${safe}</a>`,
+    '</p>'
+  ].join('');
+}
+
+function renderInquiryForm(site) {
+  if (!isPublicEmail(site.email)) {
+    return '';
+  }
+  const email = escapeHtml(site.email.trim());
+  return [
+    `<form class="inquiry-form" id="inquiry-form" data-email="${email}">`,
+    '<label><span>Name</span><input type="text" name="visitor" maxlength="80" autocomplete="name" required /></label>',
+    '<label><span>Your email</span><input type="email" name="replyTo" maxlength="120" autocomplete="email" /></label>',
+    '<label><span>About</span>',
+    '<select name="topic">',
+    '<option value="Prints">Prints</option>',
+    '<option value="Assignment">Assignment</option>',
+    '<option value="Licensing">Licensing</option>',
+    '<option value="The work">The work</option>',
+    '<option value="Other">Other</option>',
+    '</select></label>',
+    '<label><span>Note</span><textarea name="message" rows="6" maxlength="2000" required placeholder="What are you hoping to make, license, or ask about?"></textarea></label>',
+    '<p id="inquiry-status" class="status" role="status"></p>',
+    '<button type="submit">Write the email</button>',
+    '</form>'
+  ].join('');
 }
 
 function publicPhoto(photo) {

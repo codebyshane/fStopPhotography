@@ -3,11 +3,13 @@
 
 	var form = document.getElementById('upload-form');
 	var seriesForm = document.getElementById('series-form');
+	var siteForm = document.getElementById('site-form');
 	var input = document.getElementById('photo-input');
 	var dropzone = document.getElementById('dropzone');
 	var preview = document.getElementById('upload-preview');
 	var uploadStatus = document.getElementById('upload-status');
 	var seriesStatus = document.getElementById('series-status');
+	var siteStatus = document.getElementById('site-status');
 	var libraryStatus = document.getElementById('library-status');
 	var list = document.getElementById('photo-list');
 	var seriesList = document.getElementById('series-list');
@@ -137,7 +139,19 @@
 		}).join('');
 	}
 
+	function fillSiteForm() {
+		if (!siteForm || !exhibition.site) {
+			return;
+		}
+		siteForm.photographer.value = exhibition.site.photographer || '';
+		siteForm.tagline.value = exhibition.site.tagline || '';
+		siteForm.about.value = exhibition.site.about || '';
+		siteForm.inquiries.value = exhibition.site.inquiries || '';
+		siteForm.email.value = exhibition.site.email || '';
+	}
+
 	function render() {
+		fillSiteForm();
 		renderSelect();
 		renderSeries();
 		renderPhotos();
@@ -186,6 +200,37 @@
 			setStatus(uploadStatus, error.message, true);
 		}
 	});
+
+	if (siteForm) {
+		siteForm.addEventListener('submit', async function (event) {
+			event.preventDefault();
+			try {
+				var response = await fetch('/api/studio/site', {
+					method: 'PATCH',
+					headers: { 'Content-Type': 'application/json' },
+					credentials: 'same-origin',
+					body: JSON.stringify({
+						photographer: siteForm.photographer.value,
+						tagline: siteForm.tagline.value,
+						about: siteForm.about.value,
+						inquiries: siteForm.inquiries.value,
+						email: siteForm.email.value
+					})
+				});
+				var payload = await response.json();
+				if (!response.ok) {
+					throw new Error(payload.error || 'Could not save the About page.');
+				}
+				if (payload.exhibition) {
+					exhibition = payload.exhibition;
+					render();
+				}
+				setStatus(siteStatus, 'About page saved.');
+			} catch (error) {
+				setStatus(siteStatus, error.message, true);
+			}
+		});
+	}
 
 	seriesForm.addEventListener('submit', async function (event) {
 		event.preventDefault();

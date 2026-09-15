@@ -21,7 +21,7 @@
 }
 
 html, body, div, span, h1, h2, h3, p, a, ul, ol, li,
-header, footer, section, article, main, nav, img, form, label, input, select, button {
+header, footer, section, article, main, nav, img, form, label, input, select, textarea, button {
 	margin: 0;
 	padding: 0;
 	border: 0;
@@ -63,7 +63,7 @@ h1, h2, h3 {
 	line-height: 1.1;
 }
 
-button, input, select {
+button, input, select, textarea {
 	font-family: inherit;
 	color: inherit;
 }
@@ -287,7 +287,7 @@ button {
 }
 
 .about-page {
-	max-width: 38rem;
+	max-width: 40rem;
 	margin: 0 auto;
 	padding: 2rem 1.75rem 5rem;
 }
@@ -297,18 +297,150 @@ button {
 	font-size: 4rem;
 }
 
+.about-page h2 {
+	margin: 0.35rem 0 0.85rem;
+	font-size: 2.1rem;
+}
+
 .about-body {
-	margin: 2rem 0;
+	margin: 2rem 0 2.75rem;
 	font-size: 1.15rem;
+}
+
+.about-body p + p {
+	margin-top: 1rem;
+}
+
+.about-contact {
+	padding: 1.75rem 1.5rem 1.85rem;
+	border: 1px solid var(--line);
+	background: var(--paper-deep);
 }
 
 .about-contact .kicker {
 	margin-bottom: 0.5rem;
 }
 
+.about-contact > p {
+	margin-bottom: 1.15rem;
+}
+
 .about-contact a {
 	color: var(--ink);
 	border-bottom: 1px solid var(--line);
+}
+
+.inquiry-topics {
+	display: grid;
+	gap: 0.85rem;
+	margin: 0 0 1.5rem;
+}
+
+.inquiry-topics li {
+	display: grid;
+	gap: 0.15rem;
+	padding-left: 0.85rem;
+	border-left: 1px solid var(--line);
+}
+
+.inquiry-topics strong {
+	color: var(--ink);
+	font-size: 0.78rem;
+	font-weight: 500;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.inquiry-topics span {
+	color: var(--ink-soft);
+}
+
+.inquiry-direct {
+	margin-bottom: 1.35rem;
+}
+
+.inquiry-mail {
+	display: inline-block;
+	padding-bottom: 0.12rem;
+	font-size: 1.15rem;
+	color: var(--ink);
+}
+
+.inquiry-closed {
+	color: var(--ink-soft);
+}
+
+.inquiry-form {
+	display: grid;
+	gap: 0.85rem;
+}
+
+.inquiry-form label {
+	display: grid;
+	gap: 0.35rem;
+	color: var(--ink);
+	font-size: 0.72rem;
+	font-weight: 500;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+}
+
+.inquiry-form input,
+.inquiry-form select,
+.inquiry-form textarea {
+	width: 100%;
+	padding: 0.75rem 0.85rem;
+	border: 1px solid var(--line);
+	border-radius: 2px;
+	background: var(--paper);
+	color: var(--ink);
+	font-size: 1rem;
+	letter-spacing: 0;
+	text-transform: none;
+}
+
+.inquiry-form textarea {
+	min-height: 8.5rem;
+	resize: vertical;
+	line-height: 1.5;
+}
+
+.inquiry-form input:focus,
+.inquiry-form select:focus,
+.inquiry-form textarea:focus {
+	outline: 1px solid var(--gold);
+}
+
+.inquiry-form input::placeholder,
+.inquiry-form textarea::placeholder {
+	color: rgba(28, 25, 21, 0.38);
+}
+
+.inquiry-form button {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	justify-self: start;
+	padding: 0.85rem 1.15rem;
+	border: 1px solid var(--gold);
+	background: var(--gold);
+	color: #fff;
+	font-size: 0.75rem;
+	font-weight: 500;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
+.inquiry-form .status {
+	min-height: 1.1em;
+	color: var(--gold);
+	font-size: 0.9rem;
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+.inquiry-form .status.is-error {
+	color: #8a3d34;
 }
 
 .empty-gallery {
@@ -558,7 +690,9 @@ body.strip-hidden .filmstrip-wrap {
 
 .login-form input,
 .upload-form input[type="text"],
+.upload-form input[type="email"],
 .upload-form select,
+.upload-form textarea,
 .photo-card .fields input,
 .photo-card .fields select {
 	width: 100%;
@@ -574,12 +708,16 @@ body.strip-hidden .filmstrip-wrap {
 
 .login-form input:focus,
 .upload-form input[type="text"]:focus,
-.upload-form select:focus {
+.upload-form input[type="email"]:focus,
+.upload-form select:focus,
+.upload-form textarea:focus {
 	outline: 1px solid var(--gold-strong);
 }
 
 .login-form input::placeholder,
-.upload-form input[type="text"]::placeholder {
+.upload-form input[type="text"]::placeholder,
+.upload-form input[type="email"]::placeholder,
+.upload-form textarea::placeholder {
 	color: rgba(243, 239, 230, 0.38);
 }
 
@@ -672,6 +810,28 @@ body.strip-hidden .filmstrip-wrap {
 	grid-template-columns: minmax(18rem, 24rem) minmax(16rem, 20rem) 1fr;
 	gap: 1.25rem;
 	padding: 1.25rem;
+}
+
+.studio-copy {
+	grid-column: 1 / -1;
+}
+
+.site-form {
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	align-items: start;
+}
+
+.site-form label:nth-child(3),
+.site-form label:nth-child(4),
+.site-form .status,
+.site-form button {
+	grid-column: 1 / -1;
+}
+
+.upload-form textarea {
+	min-height: 7rem;
+	resize: vertical;
+	line-height: 1.45;
 }
 
 .studio-panel {
@@ -813,8 +973,18 @@ body.strip-hidden .filmstrip-wrap {
 
 	.hero-caption h1,
 	.about-page h1,
+	.about-page h2,
 	.work-head h2 {
 		font-size: 2.4rem;
+	}
+
+	.site-form {
+		grid-template-columns: 1fr;
+	}
+
+	.inquiry-form button {
+		width: 100%;
+		justify-content: center;
 	}
 
 	.series-viewer .nav-next,

@@ -19,20 +19,41 @@
 			</nav>
 		</header>
 		<main class="about-page">
-			<p class="eyebrow">About</p>
-			<h1>f/stop</h1>
+			<p class="eyebrow">f/stop Photography</p>
+			<h1>{{photographer}}</h1>
 			<p class="lede">{{tagline}}</p>
 			<div class="about-body">
 				<p>{{about}}</p>
 			</div>
-			<div class="about-contact">
+			<section class="about-contact" id="inquiries" aria-labelledby="inquiries-heading">
 				<p class="kicker">Inquiries</p>
-				<p>For prints, assignments, or a conversation about the work.</p>
-				{{email}}
-			</div>
+				<h2 id="inquiries-heading">Work with the photographs</h2>
+				<p>{{inquiries}}</p>
+				<ul class="inquiry-topics">
+					<li>
+						<strong>Prints</strong>
+						<span>A frame from the wall, made to hang.</span>
+					</li>
+					<li>
+						<strong>Assignments</strong>
+						<span>New work for a place, a story, or a client.</span>
+					</li>
+					<li>
+						<strong>Licensing</strong>
+						<span>Editorial or commercial use of an existing photograph.</span>
+					</li>
+					<li>
+						<strong>The work</strong>
+						<span>A question about a series, a location, or a single frame.</span>
+					</li>
+				</ul>
+				{{emailBlock}}
+				{{inquiryForm}}
+			</section>
 		</main>
 		<footer class="site-foot">
 			<p>&copy; {{year}} f/stop Photography</p>
 		</footer>
+		<script src="/assets/js/about.js"></script>
 	</body>
 </html>
