@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+		<title>f/stop Photography</title>
+		<meta name="description" content="{{tagline}}" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="/assets/css/site.css" />
+	</head>
+	<body class="page-home {{heroClass}}">
+		<section class="hero">
+			<div class="hero-stage">
+				<div class="hero-backdrop" style="background-image: url('{{heroImage}}')"></div>
+				<div class="hero-image" style="background-image: url('{{heroImage}}')"></div>
+			</div>
+			<header class="mast mast-over">
+				<a class="wordmark" href="/">f/stop</a>
+				<nav>
+					<a href="#work">Work</a>
+					<a href="/about">About</a>
+				</nav>
+			</header>
+			<div class="hero-caption">
+				<p class="kicker">Opening frame</p>
+				<h1>{{heroTitle}}</h1>
+				<p>{{heroLocation}}</p>
+				<a class="text-ghost" href="{{heroSeriesUrl}}">View {{heroSeriesName}}</a>
+			</div>
+		</section>
+
+		<main id="work" class="work">
+			<header class="work-head">
+				<p class="eyebrow">Work</p>
+				<h2>Series</h2>
+				<p class="lede">{{tagline}}</p>
+			</header>
+			<div class="chapters">
+				{{chapters}}
+			</div>
+		</main>
+
+		<footer class="site-foot">
+			<p>&copy; {{year}} f/stop Photography</p>
+		</footer>
+	</body>
+</html>

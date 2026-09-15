@@ -1,0 +1,165 @@
+{
+  "site": {
+    "name": "f/stop",
+    "tagline": "Photographs from the world around us.",
+    "about": "f/stop is a quiet record of the world around us — coast light, city weather, gardens, and the animals that sit still long enough to be seen.",
+    "email": "",
+    "featuredPhotoId": "01"
+  },
+  "series": [
+    {
+      "id": "laguna",
+      "slug": "laguna",
+      "title": "Laguna",
+      "kicker": "California",
+      "description": "Last light on the Pacific."
+    },
+    {
+      "id": "chicago",
+      "slug": "chicago",
+      "title": "Chicago",
+      "kicker": "Illinois",
+      "description": "Steel, weather, and the animals who live beside the lake."
+    },
+    {
+      "id": "florida",
+      "slug": "florida",
+      "title": "Florida",
+      "kicker": "The peninsula",
+      "description": "Raceways, gardens of the night, and humid daylight."
+    },
+    {
+      "id": "denver",
+      "slug": "denver",
+      "title": "Denver",
+      "kicker": "Colorado",
+      "description": "Close studies from the botanical gardens."
+    },
+    {
+      "id": "home",
+      "slug": "home",
+      "title": "Home",
+      "kicker": "Quiet",
+      "description": "The frames that never needed a trip."
+    }
+  ],
+  "photos": [
+    {
+      "id": "01",
+      "seriesId": "laguna",
+      "title": "Laguna Sunset",
+      "location": "Laguna Beach, California",
+      "original": "01.jpeg",
+      "thumb": "01.jpeg",
+      "position": "left center"
+    },
+    {
+      "id": "02",
+      "seriesId": "chicago",
+      "title": "A Chicago Drive",
+      "location": "Chicago, Illinois",
+      "original": "02.jpeg",
+      "thumb": "02.jpeg",
+      "position": "center"
+    },
+    {
+      "id": "03",
+      "seriesId": "chicago",
+      "title": "Not a Cloud in the Sky",
+      "location": "Chicago, Illinois",
+      "original": "03.jpeg",
+      "thumb": "03.jpeg",
+      "position": "top center"
+    },
+    {
+      "id": "04",
+      "seriesId": "chicago",
+      "title": "A Bird's Profile Pic",
+      "location": "Lincoln Park Zoo — Chicago, Illinois",
+      "original": "04.jpeg",
+      "thumb": "04.jpeg",
+      "position": "center"
+    },
+    {
+      "id": "05",
+      "seriesId": "chicago",
+      "title": "Let Them Sleep",
+      "location": "Lincoln Park Zoo — Chicago, Illinois",
+      "original": "05.jpeg",
+      "thumb": "05.jpeg",
+      "position": "top center"
+    },
+    {
+      "id": "06",
+      "seriesId": "florida",
+      "title": "Hairpin Sunset",
+      "location": "Sebring International Raceway — Sebring, Florida",
+      "original": "06.jpeg",
+      "thumb": "06.jpeg",
+      "position": "center"
+    },
+    {
+      "id": "07",
+      "seriesId": "florida",
+      "title": "Keeping an Eye on You",
+      "location": "Busch Gardens — Tampa, Florida",
+      "original": "07.jpeg",
+      "thumb": "07.jpeg",
+      "position": "center"
+    },
+    {
+      "id": "08",
+      "seriesId": "florida",
+      "title": "The Webs We Weave",
+      "location": "St. Augustine, Florida",
+      "original": "08.jpeg",
+      "thumb": "08.jpeg",
+      "position": "center"
+    },
+    {
+      "id": "09",
+      "seriesId": "florida",
+      "title": "A Simple Night",
+      "location": "O'Leno State Park — High Springs, Florida",
+      "original": "09.jpeg",
+      "thumb": "09.jpeg",
+      "position": "center"
+    },
+    {
+      "id": "10",
+      "seriesId": "denver",
+      "title": "Center",
+      "location": "Denver Botanical Gardens — Denver, Colorado",
+      "original": "10.jpeg",
+      "thumb": "10.jpeg",
+      "position": "center"
+    },
+    {
+      "id": "11",
+      "seriesId": "denver",
+      "title": "Here Comes The Sun",
+      "location": "Denver Botanical Gardens — Denver, Colorado",
+      "original": "11.jpeg",
+      "thumb": "11.jpeg",
+      "position": "center"
+    },
+    {
+      "id": "12",
+      "seriesId": "denver",
+      "title": "Passion",
+      "location": "Denver Botanical Gardens — Denver, Colorado",
+      "original": "12.jpeg",
+      "thumb": "12.jpeg",
+      "position": "center"
+    },
+    {
+      "id": "14",
+      "seriesId": "home",
+      "title": "Curiosity",
+      "location": "Home",
+      "original": "14.jpeg",
+      "thumb": "14.jpeg",
+      "position": "center"
+    }
+  ]
+}
