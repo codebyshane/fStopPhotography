@@ -1,7 +1,52 @@
 {
+  "site": {
+    "name": "f/stop",
+    "tagline": "Photographs from the world around us.",
+    "about": "f/stop is a quiet record of the world around us — coast light, city weather, gardens, and the animals that sit still long enough to be seen.",
+    "email": "",
+    "featuredPhotoId": "01"
+  },
+  "series": [
+    {
+      "id": "laguna",
+      "slug": "laguna",
+      "title": "Laguna",
+      "kicker": "California",
+      "description": "Last light on the Pacific."
+    },
+    {
+      "id": "chicago",
+      "slug": "chicago",
+      "title": "Chicago",
+      "kicker": "Illinois",
+      "description": "Steel, weather, and the animals who live beside the lake."
+    },
+    {
+      "id": "florida",
+      "slug": "florida",
+      "title": "Florida",
+      "kicker": "The peninsula",
+      "description": "Raceways, gardens of the night, and humid daylight."
+    },
+    {
+      "id": "denver",
+      "slug": "denver",
+      "title": "Denver",
+      "kicker": "Colorado",
+      "description": "Close studies from the botanical gardens."
+    },
+    {
+      "id": "home",
+      "slug": "home",
+      "title": "Home",
+      "kicker": "Quiet",
+      "description": "The frames that never needed a trip."
+    }
+  ],
   "photos": [
     {
       "id": "01",
+      "seriesId": "laguna",
       "title": "Laguna Sunset",
       "location": "Laguna Beach, California",
       "original": "01.jpeg",
@@ -10,6 +55,7 @@
     },
     {
       "id": "02",
+      "seriesId": "chicago",
       "title": "A Chicago Drive",
       "location": "Chicago, Illinois",
       "original": "02.jpeg",
@@ -18,6 +64,7 @@
     },
     {
       "id": "03",
+      "seriesId": "chicago",
       "title": "Not a Cloud in the Sky",
       "location": "Chicago, Illinois",
       "original": "03.jpeg",
@@ -26,6 +73,7 @@
     },
     {
       "id": "04",
+      "seriesId": "chicago",
       "title": "A Bird's Profile Pic",
       "location": "Lincoln Park Zoo — Chicago, Illinois",
       "original": "04.jpeg",
@@ -34,6 +82,7 @@
     },
     {
       "id": "05",
+      "seriesId": "chicago",
       "title": "Let Them Sleep",
       "location": "Lincoln Park Zoo — Chicago, Illinois",
       "original": "05.jpeg",
@@ -42,6 +91,7 @@
     },
     {
       "id": "06",
+      "seriesId": "florida",
       "title": "Hairpin Sunset",
       "location": "Sebring International Raceway — Sebring, Florida",
       "original": "06.jpeg",
@@ -50,6 +100,7 @@
     },
     {
       "id": "07",
+      "seriesId": "florida",
       "title": "Keeping an Eye on You",
       "location": "Busch Gardens — Tampa, Florida",
       "original": "07.jpeg",
@@ -58,6 +109,7 @@
     },
     {
       "id": "08",
+      "seriesId": "florida",
       "title": "The Webs We Weave",
       "location": "St. Augustine, Florida",
       "original": "08.jpeg",
@@ -66,6 +118,7 @@
     },
     {
       "id": "09",
+      "seriesId": "florida",
       "title": "A Simple Night",
       "location": "O'Leno State Park — High Springs, Florida",
       "original": "09.jpeg",
@@ -74,6 +127,7 @@
     },
     {
       "id": "10",
+      "seriesId": "denver",
       "title": "Center",
       "location": "Denver Botanical Gardens — Denver, Colorado",
       "original": "10.jpeg",
@@ -82,6 +136,7 @@
     },
     {
       "id": "11",
+      "seriesId": "denver",
       "title": "Here Comes The Sun",
       "location": "Denver Botanical Gardens — Denver, Colorado",
       "original": "11.jpeg",
@@ -90,6 +145,7 @@
     },
     {
       "id": "12",
+      "seriesId": "denver",
       "title": "Passion",
       "location": "Denver Botanical Gardens — Denver, Colorado",
       "original": "12.jpeg",
@@ -98,6 +154,7 @@
     },
     {
       "id": "14",
+      "seriesId": "home",
       "title": "Curiosity",
       "location": "Home",
       "original": "14.jpeg",

@@ -101,18 +101,65 @@ app.get('/healthz', (_req, res) => {
 });
 
 app.get('/', (_req, res) => {
-  const photos = store.list();
+  const site = store.site();
+  const featured = store.featuredPhoto();
+  const featuredUrls = featured ? images.publicUrls(featured) : null;
+  const featuredSeries = featured ? store.findSeries(featured.seriesId) : null;
   res.set('Cache-Control', 'no-store');
-  res.type('html').send(renderTemplate('gallery.html', {
+  res.type('html').send(renderTemplate('home.html', {
     year: String(new Date().getFullYear()),
-    count: String(photos.length),
-    countLabel: photos.length === 1 ? 'Photograph' : 'Photographs',
-    thumbnails: renderThumbnails(photos)
+    tagline: escapeHtml(site.tagline),
+    about: escapeHtml(site.about),
+    heroClass: featuredUrls ? '' : 'is-empty',
+    heroImage: featuredUrls ? escapeHtml(featuredUrls.full) : '',
+    heroTitle: featured ? escapeHtml(featured.title) : 'New work is on the way.',
+    heroLocation: featured ? escapeHtml(featured.location || '') : '',
+    heroSeriesUrl: featuredSeries ? '/work/' + encodeURIComponent(featuredSeries.slug) : '/#work',
+    heroSeriesName: featuredSeries ? escapeHtml(featuredSeries.title) : 'Work',
+    chapters: renderChapters()
   }));
 });
 
-app.get('/api/photos', (_req, res) => {
-  res.json({ photos: store.list().map(publicPhoto) });
+app.get('/about', (_req, res) => {
+  const site = store.site();
+  const email = site.email
+    ? `<p><a href="mailto:${escapeHtml(site.email)}">${escapeHtml(site.email)}</a></p>`
+    : '';
+  res.set('Cache-Control', 'no-store');
+  res.type('html').send(renderTemplate('about.html', {
+    year: String(new Date().getFullYear()),
+    tagline: escapeHtml(site.tagline),
+    about: escapeHtml(site.about).replace(/\n/g, '</p><p>'),
+    email
+  }));
+});
+
+app.get('/work/:slug', (req, res) => {
+  const series = store.findSeries(req.params.slug);
+  if (!series) {
+    return res.status(404).set('Cache-Control', 'no-store').type('html').send(renderTemplate('404.html', {}));
+  }
+  const photos = store.photosInSeries(series.id).map(publicPhoto);
+  if (!photos.length) {
+    return res.status(404).set('Cache-Control', 'no-store').type('html').send(renderTemplate('404.html', {}));
+  }
+  const startId = String(req.query.p || photos[0].id);
+  const startIndex = Math.max(0, photos.findIndex((photo) => photo.id === startId));
+  res.set('Cache-Control', 'no-store');
+  res.type('html').send(renderTemplate('series.html', {
+    seriesTitle: escapeHtml(series.title),
+    seriesKicker: escapeHtml(series.kicker || ''),
+    seriesDescription: escapeHtml(series.description || ''),
+    count: String(photos.length),
+    countLabel: photos.length === 1 ? 'photograph' : 'photographs',
+    filmstrip: renderFilmstrip(photos),
+    seriesData: JSON.stringify({
+      title: series.title,
+      slug: series.slug,
+      photos,
+      index: startIndex
+    }).replace(/</g, '\\u003c')
+  }));
 });
 
 const loginLimiter = rateLimit({
@@ -163,8 +210,56 @@ app.post(ADMIN_PATH + '/logout', noIndex, requireAuth, (req, res) => {
   });
 });
 
-app.get('/api/studio/photos', noIndex, requireAuth, (_req, res) => {
-  res.json({ photos: store.list().map(studioPhoto) });
+app.get('/api/studio/exhibition', noIndex, requireAuth, (_req, res) => {
+  res.json(studioPayload());
+});
+
+app.patch('/api/studio/site', noIndex, requireAuth, (req, res) => {
+  const site = store.updateSite({
+    about: req.body.about,
+    email: req.body.email,
+    tagline: req.body.tagline,
+    featuredPhotoId: req.body.featuredPhotoId
+  });
+  res.json({ site });
+});
+
+app.post('/api/studio/series', noIndex, requireAuth, (req, res) => {
+  const series = store.addSeries({
+    title: req.body.title,
+    kicker: req.body.kicker,
+    description: req.body.description
+  });
+  res.status(201).json({ series, exhibition: studioPayload() });
+});
+
+app.patch('/api/studio/series/:id', noIndex, requireAuth, (req, res) => {
+  const series = store.updateSeries(req.params.id, {
+    title: req.body.title,
+    kicker: req.body.kicker,
+    description: req.body.description
+  });
+  if (!series) {
+    return res.status(404).json({ error: 'Series not found.' });
+  }
+  res.json({ series });
+});
+
+app.delete('/api/studio/series/:id', noIndex, requireAuth, (req, res) => {
+  try {
+    const series = store.removeSeries(req.params.id);
+    if (!series) {
+      return res.status(404).json({ error: 'Series not found.' });
+    }
+    res.json({ ok: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
+
+app.put('/api/studio/series/reorder', noIndex, requireAuth, (req, res) => {
+  const ids = Array.isArray(req.body.ids) ? req.body.ids.map(String) : [];
+  res.json({ series: store.reorderSeries(ids) });
 });
 
 app.post('/api/studio/photos', noIndex, requireAuth, (req, res) => {
@@ -176,7 +271,7 @@ app.post('/api/studio/photos', noIndex, requireAuth, (req, res) => {
       return res.status(400).json({ error: message });
     }
     if (!req.file) {
-      return res.status(400).json({ error: 'Choose a photograph to upload.' });
+      return res.status(400).json({ error: 'Choose a photograph to hang.' });
     }
 
     const tempPath = req.file.path;
@@ -185,16 +280,18 @@ app.post('/api/studio/photos', noIndex, requireAuth, (req, res) => {
       const files = await images.processUpload(tempPath, id);
       const photo = store.add({
         id,
+        seriesId: String(req.body.seriesId || ''),
         title: String(req.body.title || '').trim() || 'Untitled',
         location: String(req.body.location || '').trim(),
         original: files.original,
         thumb: files.thumb,
-        position: 'center'
+        position: 'center',
+        featured: req.body.featured === 'true' || req.body.featured === true
       });
-      res.status(201).json({ photo: studioPhoto(photo) });
+      res.status(201).json({ photo: studioPhoto(photo), exhibition: studioPayload() });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ error: 'Could not process that photograph.' });
+      res.status(400).json({ error: error.message || 'Could not process that photograph.' });
     } finally {
       fs.unlink(tempPath, () => {});
     }
@@ -205,12 +302,14 @@ app.patch('/api/studio/photos/:id', noIndex, requireAuth, (req, res) => {
   const photo = store.update(req.params.id, {
     title: req.body.title,
     location: req.body.location,
-    position: req.body.position
+    position: req.body.position,
+    seriesId: req.body.seriesId,
+    featured: req.body.featured
   });
   if (!photo) {
     return res.status(404).json({ error: 'Photograph not found.' });
   }
-  res.json({ photo: studioPhoto(photo) });
+  res.json({ photo: studioPhoto(photo), exhibition: studioPayload() });
 });
 
 app.delete('/api/studio/photos/:id', noIndex, requireAuth, (req, res) => {
@@ -223,13 +322,13 @@ app.delete('/api/studio/photos/:id', noIndex, requireAuth, (req, res) => {
   } catch (error) {
     console.error(error);
   }
-  res.json({ ok: true });
+  res.json({ ok: true, exhibition: studioPayload() });
 });
 
 app.put('/api/studio/photos/reorder', noIndex, requireAuth, (req, res) => {
   const ids = Array.isArray(req.body.ids) ? req.body.ids.map(String) : [];
-  const photos = store.reorder(ids);
-  res.json({ photos: photos.map(studioPhoto) });
+  store.reorder(ids);
+  res.json(studioPayload());
 });
 
 app.use((err, _req, res, _next) => {
@@ -263,7 +362,7 @@ function requireAuth(req, res, next) {
   res.status(401).json({ error: 'Sign in required.' });
 }
 
-function noIndex(req, res, next) {
+function noIndex(_req, res, next) {
   res.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
   next();
 }
@@ -291,6 +390,7 @@ function publicPhoto(photo) {
   const urls = images.publicUrls(photo);
   return {
     id: photo.id,
+    seriesId: photo.seriesId || '',
     title: photo.title,
     location: photo.location,
     position: photo.position || 'center',
@@ -306,31 +406,54 @@ function studioPhoto(photo) {
   });
 }
 
-function renderThumbnails(photos) {
-  if (!photos.length) {
-    return '<p class="empty-gallery">New work is on the way.</p>';
-  }
-  return photos.map((photo) => {
-    const urls = images.publicUrls(photo);
-    const title = escapeHtml(photo.title || 'Untitled');
-    const location = escapeHtml(photo.location || '');
-    const position = escapeHtml(photo.position || 'center');
+function studioPayload() {
+  const site = store.site();
+  return {
+    site,
+    series: store.listSeries(),
+    photos: store.list().map(studioPhoto)
+  };
+}
+
+function renderChapters() {
+  const seriesList = store.listSeries();
+  const cards = seriesList.map((series) => {
+    const photos = store.photosInSeries(series.id);
+    if (!photos.length) {
+      return '';
+    }
+    const cover = images.publicUrls(photos[0]);
+    const count = photos.length === 1 ? '1 photograph' : photos.length + ' photographs';
     return [
-      '<article>',
-      `<a class="thumbnail" href="${escapeHtml(urls.full)}" data-position="${position}">`,
-      `<img src="${escapeHtml(urls.thumb)}" alt="${title}" />`,
-      '</a>',
-      `<h2>${title}</h2>`,
-      location ? `<p>${location}</p>` : '',
-      '</article>'
+      `<a class="chapter" href="/work/${encodeURIComponent(series.slug)}">`,
+      `<div class="chapter-image"><img src="${escapeHtml(cover.thumb)}" alt="${escapeHtml(series.title)}" /></div>`,
+      '<div class="chapter-copy">',
+      series.kicker ? `<p class="kicker">${escapeHtml(series.kicker)}</p>` : '',
+      `<h2>${escapeHtml(series.title)}</h2>`,
+      series.description ? `<p class="chapter-lede">${escapeHtml(series.description)}</p>` : '',
+      `<p class="chapter-count">${count}</p>`,
+      '</div>',
+      '</a>'
     ].join('');
-  }).join('');
+  }).filter(Boolean);
+  if (!cards.length) {
+    return '<p class="empty-gallery">The walls are being hung.</p>';
+  }
+  return cards.join('');
+}
+
+function renderFilmstrip(photos) {
+  return photos.map((photo, index) => (
+    `<button class="strip-thumb" type="button" data-index="${index}" aria-label="${escapeHtml(photo.title)}">` +
+    `<img src="${escapeHtml(photo.thumb)}" alt="" />` +
+    '</button>'
+  )).join('');
 }
 
 function renderTemplate(name, vars) {
   let html = fs.readFileSync(path.join(ROOT, 'views', name), 'utf8');
   for (const [key, value] of Object.entries(vars)) {
-    html = html.replace(new RegExp('\\{\\{' + key + '\\}\\}', 'g'), value);
+    html = html.replace(new RegExp('\\{\\{' + key + '\\}\\}', 'g'), value == null ? '' : String(value));
   }
   return html;
 }

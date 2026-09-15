@@ -1,18 +1,8 @@
-#main {
-	opacity: 1 !important;
-	right: 0 !important;
+body {
+	background: var(--paper, #f3efe6);
+	overflow: auto;
 }
 
-body:before {
-	content: 'Enable JavaScript to view the gallery.';
-	display: block;
-	position: absolute;
-	top: 50%;
-	left: 0;
-	width: calc(100% - 24rem);
-	margin-top: -1em;
-	color: #8a857c;
-	font-family: "Cormorant Garamond", serif;
-	font-size: 1.8rem;
-	text-align: center;
+.hero-image {
+	opacity: 1;
 }

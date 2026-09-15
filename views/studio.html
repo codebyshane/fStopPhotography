@@ -14,21 +14,21 @@
 		<header class="studio-bar">
 			<div>
 				<p class="eyebrow">Studio</p>
-				<h1>f/stop</h1>
+				<h1>Hang the work</h1>
 			</div>
 			<div class="studio-bar-actions">
 				<span class="signed-in">Signed in as {{username}}</span>
-				<a class="text-link" href="/" target="_blank" rel="noopener">View gallery</a>
+				<a class="text-link" href="/" target="_blank" rel="noopener">View exhibition</a>
 				<form method="post" action="{{adminPath}}/logout">
 					<button type="submit" class="ghost">Sign out</button>
 				</form>
 			</div>
 		</header>
 
-		<main class="studio-layout">
-			<section class="studio-panel" aria-labelledby="upload-heading">
-				<h2 id="upload-heading">Add a photograph</h2>
-				<p class="lede">Upload a new image whenever a frame is worthy of the gallery.</p>
+		<main class="studio-layout studio-exhibition">
+			<section class="studio-panel" aria-labelledby="hang-heading">
+				<h2 id="hang-heading">Hang a photograph</h2>
+				<p class="lede">Place a new frame on the wall. Choose the series it belongs to.</p>
 				<form id="upload-form" class="upload-form">
 					<label class="dropzone" id="dropzone">
 						<input id="photo-input" type="file" name="photo" accept="image/jpeg,image/png,image/webp,image/gif,image/heic" required />
@@ -46,18 +46,48 @@
 						<span>Location</span>
 						<input type="text" name="location" maxlength="160" placeholder="Laguna Beach, California" />
 					</label>
+					<label>
+						<span>Series</span>
+						<select name="seriesId" id="series-select" required></select>
+					</label>
+					<label class="check">
+						<input type="checkbox" name="featured" value="true" />
+						<span>Hang as the opening frame</span>
+					</label>
 					<p id="upload-status" class="status" role="status"></p>
-					<button type="submit">Add to gallery</button>
+					<button type="submit">Hang on the wall</button>
 				</form>
+			</section>
+
+			<section class="studio-panel" aria-labelledby="series-heading">
+				<h2 id="series-heading">Series</h2>
+				<p class="lede">Rooms in the exhibition. New photographs need a series to belong to.</p>
+				<form id="series-form" class="upload-form">
+					<label>
+						<span>Title</span>
+						<input type="text" name="title" maxlength="80" placeholder="Chicago" required />
+					</label>
+					<label>
+						<span>Kicker</span>
+						<input type="text" name="kicker" maxlength="80" placeholder="Illinois" />
+					</label>
+					<label>
+						<span>Short line</span>
+						<input type="text" name="description" maxlength="180" placeholder="Steel, weather, and the lake." />
+					</label>
+					<button type="submit" class="ghost">Add series</button>
+				</form>
+				<p id="series-status" class="status" role="status"></p>
+				<ol id="series-list" class="photo-list"></ol>
 			</section>
 
 			<section class="studio-panel studio-library" aria-labelledby="library-heading">
 				<div class="library-head">
-					<h2 id="library-heading">Gallery</h2>
+					<h2 id="library-heading">On the wall</h2>
 					<p class="lede" id="library-count"></p>
 				</div>
 				<p id="library-status" class="status" role="status"></p>
-				<ol id="photo-list" class="photo-list"></ol>
+				<div id="photo-list"></div>
 			</section>
 		</main>
 

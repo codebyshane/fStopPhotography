@@ -1,6 +1,6 @@
 # f/stop Photography
 
-A photo-centric portfolio for f/stop Photography. The public gallery keeps the original Lens-style layout — a large photograph on the left, with a filmstrip of thumbnails on the right — restyled as a clean, museum-like presentation so the pictures lead.
+A living exhibition: one opening photograph, work grouped into series, and a private studio for hanging new frames.
 
 ## Run locally
 
@@ -15,25 +15,29 @@ npm start
 
 Open [http://localhost:3000](http://localhost:3000).
 
+## Public site
+
+- `/` — full-bleed opening frame, then a list of series
+- `/work/:series` — one photograph at a time, with a hideable index
+- `/about` — a short note and inquiries
+
 ## Private studio
 
-The public gallery does not link to the upload interface. After signing in at the studio URL from your `.env` (`ADMIN_PATH`, default `/darkroom`), you can:
+The public pages do not link to the studio. Sign in at the path in `.env` (`ADMIN_PATH`, default `/darkroom`) to:
 
-- Upload new photographs (JPEG, PNG, or WebP)
-- Set a title and location
-- Reorder the gallery
-- Remove photographs
-- Sign out
+- Hang a new photograph into a series
+- Mark one frame as the opening image on the home page
+- Add, rename, and reorder series
+- Caption, move, reorder, and remove photographs
 
-Search engines are told not to index that path. Change `ADMIN_PATH` if you want a different private address, and keep the password only on the server.
+Search engines are told not to index that path.
 
 ## Deploy
 
-This is a Node.js app, not a static GitHub Pages site. Any host that can run Node 18+ and keep a disk for `images/` and `data/` will work (Render, Railway, Fly.io, a VPS). Set the same environment variables there, and persist the `images/` and `data/` directories so new uploads survive restarts.
+This is a Node.js app. Host it where Node 18+ can run and `images/` plus `data/` can persist.
 
 ## Notes
 
-- Gallery order and captions live in `data/gallery.json`
-- Originals are stored in `images/fulls/`; the site serves resized copies from `images/web/` and `images/thumbs/`
+- Exhibition data lives in `data/gallery.json`
+- Originals are in `images/fulls/`; the site serves resized copies from `images/web/` and `images/thumbs/`
 - Uploads are limited to 25MB
-- Layout inspired by [Lens](https://html5up.net/lens) by HTML5 UP
