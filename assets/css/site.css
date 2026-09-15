@@ -221,6 +221,28 @@ body.is-preload-1 #main {
 	transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
+.icon::before {
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	display: inline-block;
+	font-style: normal;
+	font-variant: normal;
+	text-rendering: auto;
+	line-height: 1;
+	text-transform: none !important;
+	font-family: "Font Awesome 5 Free";
+	font-weight: 400;
+}
+
+.icon.brands::before {
+	font-family: "Font Awesome 5 Brands";
+}
+
+.icon.solid::before {
+	font-family: "Font Awesome 5 Free";
+	font-weight: 900;
+}
+
 .icons a:hover,
 .icons a:focus-visible {
 	background: var(--ink);
@@ -706,6 +728,20 @@ body.is-preload-2 #viewer .slide {
 	color: #b4aa9c;
 }
 
+.studio-auth .text-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.85rem 1.1rem;
+	border: 1px solid var(--gold-strong);
+	background: transparent;
+	color: #f3efe6;
+	font-size: 0.78rem;
+	font-weight: 500;
+	letter-spacing: 0.16em;
+	text-transform: uppercase;
+}
+
 .login-form,
 .upload-form {
 	display: grid;
@@ -738,6 +774,12 @@ body.is-preload-2 #viewer .slide {
 .login-form input:focus,
 .upload-form input[type="text"]:focus {
 	outline: 1px solid var(--gold-strong);
+}
+
+.login-form input::placeholder,
+.upload-form input[type="text"]::placeholder,
+.photo-card .fields input::placeholder {
+	color: rgba(243, 239, 230, 0.38);
 }
 
 .login-form button,

@@ -237,6 +237,10 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: 'Something went wrong.' });
 });
 
+app.use((_req, res) => {
+  res.status(404).set('Cache-Control', 'no-store').type('html').send(renderTemplate('404.html', {}));
+});
+
 function normalizeAdminPath(value) {
   let pathValue = String(value || '/darkroom').trim();
   if (!pathValue.startsWith('/')) {
