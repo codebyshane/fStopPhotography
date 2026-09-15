@@ -42,9 +42,12 @@
 			visitor + (replyTo ? ' · ' + replyTo : '')
 		].join('\n');
 
-		setStatus('Opening your email…');
-		window.location.href = 'mailto:' + encodeURIComponent(email)
+		var url = 'mailto:' + encodeURIComponent(email)
 			+ '?subject=' + encodeURIComponent(subject)
 			+ '&body=' + encodeURIComponent(body);
+
+		form.setAttribute('data-last-mailto', url);
+		setStatus('Opening your email…');
+		window.location.href = url;
 	});
 })();

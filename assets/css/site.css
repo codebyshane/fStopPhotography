@@ -828,6 +828,10 @@ body.strip-hidden .filmstrip-wrap {
 	grid-column: 1 / -1;
 }
 
+.site-form button {
+	justify-self: start;
+}
+
 .upload-form textarea {
 	min-height: 7rem;
 	resize: vertical;

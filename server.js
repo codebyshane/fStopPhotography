@@ -419,7 +419,7 @@ function renderInquiryForm(site) {
   }
   const email = escapeHtml(site.email.trim());
   return [
-    `<form class="inquiry-form" id="inquiry-form" data-email="${email}">`,
+    `<form class="inquiry-form" id="inquiry-form" data-email="${email}" novalidate>`,
     '<label><span>Name</span><input type="text" name="visitor" maxlength="80" autocomplete="name" required /></label>',
     '<label><span>Your email</span><input type="email" name="replyTo" maxlength="120" autocomplete="email" /></label>',
     '<label><span>About</span>',
