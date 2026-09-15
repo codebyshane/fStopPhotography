@@ -34,7 +34,12 @@ Search engines are told not to index that path.
 
 ## Deploy
 
-This is a Node.js app. Host it where Node 18+ can run and `images/` plus `data/` can persist.
+This is a Node.js app. On Render, connect the repo as a **Web Service** (not a static site):
+
+- Build command: `npm install`
+- Start command: `npm start`
+
+Set `SESSION_SECRET`, `ADMIN_USERNAME`, and `ADMIN_PASSWORD` in the Render environment. The service must listen on `PORT`, which Render provides.
 
 ## Notes
 
